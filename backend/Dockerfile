@@ -15,8 +15,8 @@ RUN mkdir -p /mnt/data
 # 依存関係をインストール
 RUN npm install --legacy-peer-deps || true
 
-# TypeScriptをビルド
-RUN npx tsc || true
+# TypeScriptがある場合に備えてtscを実行（無ければスキップ）
+RUN npx tsc || echo "tsc not found, skipping build"
 
 # ポートを開放
 EXPOSE 8080
