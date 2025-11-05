@@ -1,0 +1,13 @@
+# Node.js関連の巨大なフォルダを除外
+node_modules
+dist
+data
+
+# ローカル設定ファイルを除外
+.env
+
+# ダウンロードフォルダ内の他の大きなファイルを除外
+*.exe
+*.dmg
+*.zip
+Docker Desktop Installer

@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
+    'build',
+    '-t', 'gcr.io/gen-lang-client-0351670431/ai-illustration-event-diary',
+    '-f', 'Dockerfile.frontend',
+    '.',
+    '--no-cache'  # キャッシュを無効化
+  ]
+images:
+- 'gcr.io/gen-lang-client-0351670431/ai-illustration-event-diary'
