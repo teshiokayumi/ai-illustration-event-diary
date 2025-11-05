@@ -3,17 +3,18 @@ FROM node:20-alpine
 # 作業ディレクトリを作成
 WORKDIR /app
 
-# すべてのファイルをコピー
-COPY . .
+# backend フォルダの内容だけコピー
+COPY backend ./backend
 
-# backend ディレクトリへ移動
+# backendに移動して依存関係をインストール
 WORKDIR /app/backend
-
-# 依存関係をインストール
 RUN npm install --legacy-peer-deps || true
 
-# TypeScript をビルド（もし tsconfig.json がある場合）
+# TypeScriptをビルド（tsconfig.jsonがあるため）
 RUN npx tsc || true
 
-# コンテナ起動時のコマンド
+# 8080ポートを開放
+EXPOSE 8080
+
+# サーバーを起動
 CMD ["node", "dist/server.js"]
