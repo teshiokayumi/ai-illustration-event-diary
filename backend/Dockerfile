@@ -1,23 +1,25 @@
-# Node.js 公式イメージを使用
+# Node.js 20を使用
 FROM node:20
 
-# 作業ディレクトリ
 WORKDIR /app
 
-# package.json と package-lock.json をコピー
+# 共通依存
 COPY package*.json ./
-
-# 依存関係をインストール
 RUN npm install
 
-# ソースコードをコピー
-COPY . .
-
-# TypeScript をビルド
+# backendをコピーしてビルド
+COPY backend ./backend
+WORKDIR /app/backend
+RUN npm install
 RUN npm run build
 
-# コンテナ起動時にアプリを実行
-CMD ["npm", "start"]
+# frontendをビルド（※frontendが存在する場合のみ）
+WORKDIR /app/frontend
+RUN npm install
+RUN npm run build
 
-# Cloud Run が利用するポート
+# 最後にバックエンドへ戻って実行
+WORKDIR /app/backend
+ENV PORT=8080
 EXPOSE 8080
+CMD ["npm", "start"]
