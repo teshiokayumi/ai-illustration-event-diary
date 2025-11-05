@@ -9,8 +9,7 @@ COPY backend ./backend
 # backendディレクトリへ移動
 WORKDIR /app/backend
 
-# gcsfuseはローカル不要なので削除
-# RUN apk add --no-cache fuse gcsfuse && mkdir -p /mnt/data
+# gcsfuseはCloud環境専用なので削除。代わりに空のディレクトリだけ作成
 RUN mkdir -p /mnt/data
 
 # 依存関係をインストール
@@ -22,5 +21,5 @@ RUN npx tsc || true
 # ポートを開放
 EXPOSE 8080
 
-# サーバー起動
+# サーバー起動コマンド
 CMD ["node", "dist/server.js"]
