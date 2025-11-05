@@ -1,24 +1,15 @@
-FROM node:18
+# ベースイメージ
+FROM node:20-alpine
 
+# 作業ディレクトリ
 WORKDIR /app
 
-# 共通依存
-COPY package*.json ./
-RUN npm install
+# ファイルをコピー
+COPY . .
 
-# backend をコピーしてビルド
-COPY backend ./backend
+# backendディレクトリに移動して依存関係をインストール
 WORKDIR /app/backend
 RUN npm install
-RUN npm run build
 
-# frontend をビルド（存在する場合のみ）
-WORKDIR /app/frontend
-RUN npm install
-RUN npm run build
-
-# 最後に backend に戻って実行
-WORKDIR /app/backend
-ENV PORT=8080
-EXPOSE 8080
-CMD ["node", "dist/server.js"]
+# コンテナ起動時にサーバを実行
+CMD ["npm", "start"]
